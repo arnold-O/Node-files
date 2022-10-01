@@ -15,7 +15,11 @@ exports.createTour = async (req, res, next) => {
 };
 exports.getAllTour = async (req, res, next) => {
   try {
-    const allTour = await Tour.find();
+    console.log(req.query)
+
+    const allTour = await Tour.find({
+
+    });
 
     res.status(200).json({
       allTour,
@@ -37,6 +41,7 @@ exports.getTour = async (req, res, next) => {
     res.status(200).json(error);
   }
 };
+
 exports.updateTour = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -52,6 +57,7 @@ exports.updateTour = async (req, res, next) => {
     res.status(200).json(error);
   }
 };
+
 exports.deleteTour = async (req, res, next) => {
   try {
     const { id } = req.params;
