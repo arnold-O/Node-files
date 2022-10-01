@@ -2,13 +2,9 @@ const Tour = require("../model/tour");
 
 exports.createTour = async (req, res, next) => {
   try {
-    const { name, rating, price } = req.body;
+   
 
-    const newTour = await Tour.create({
-      name,
-      rating,
-      price,
-    });
+    const newTour = await Tour.create(req.body);
 
     res.status(200).json({
       newTour,

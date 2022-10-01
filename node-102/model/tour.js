@@ -7,7 +7,8 @@ const tourSchema = new mongoose.Schema({
     name:{
         type:String,
         required:[true, 'A tour mush have a name'],
-        trim:true
+        trim:true,
+        unique:true
     },
     duration:{
         type:Number,
@@ -17,7 +18,7 @@ const tourSchema = new mongoose.Schema({
         type:Number,
         required:[true, 'A tour mush have a group Size']
     },
-        difficulty: {
+    difficulty: {
         type:String,
         required:[true, 'A tour mush have a difficulty']
     },
