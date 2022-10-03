@@ -1,4 +1,5 @@
 const Tour = require("../model/tour");
+const ApiFeatures = require('../utils/apiFeatures')
 
 exports.createTour = async (req, res, next) => {
   try {
@@ -11,43 +12,17 @@ exports.createTour = async (req, res, next) => {
     res.status(200).json(error);
   }
 };
+
+
+
 exports.getAllTour = async (req, res, next) => {
   try {
-    const queryObj = { ...req.query };
-    const excludeFiles = ["page", "limit", "fields", "sort"];
-    excludeFiles.forEach((item) => delete queryObj[item]);
-
-    let queryString = JSON.stringify(queryObj);
-    queryString = queryString.replace(
-      /\b(gte|gt|lte|lt)\b/g,
-      (match) => `$${match}`
-    );
-
-    let query = Tour.find(JSON.parse(queryString));
-
-    // sorting
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(",").join(" ");
-      query = query.sort(sortBy);
-    } else {
-      query = query.sort("-createdAt");
-    }
-
-    // fields limiting
-    if (req.query.fields) {
-      const fields = req.query.fields.split(",").join(" ");
-      query = query.select(fields);
-    } else {
-      query = query.select("-__v");
-    }
-
-    // pagination
-    const page = req.query.page * 1 || 1;
-    const limit = req.query.limit * 1 || 100;
-    const skip = (page - 1) * limit;
-    query = query.skip(skip).limit(limit);
-
-    const allTours = await query;
+    const features = new ApiFeatures(Tour.find(), req.query)
+      .filter()
+      .sorting()
+      .fieldlimiting()
+      .paginate();
+    const allTours = await features.query;
 
     res.status(200).json({
       allTours,
@@ -80,7 +55,6 @@ exports.updateTour = async (req, res, next) => {
       runValidators: true,
     });
 
-
     res.status(200).json({
       updateTour,
     });
@@ -88,7 +62,6 @@ exports.updateTour = async (req, res, next) => {
     res.status(200).json(error);
   }
 };
-
 
 exports.deleteTour = async (req, res, next) => {
   try {
@@ -103,4 +76,3 @@ exports.deleteTour = async (req, res, next) => {
     res.status(200).json(error);
   }
 };
-
