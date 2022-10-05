@@ -1,5 +1,6 @@
 const Tour = require("../model/tour");
 const ApiFeatures = require("../utils/apiFeatures");
+const catchAsync = require("../utils/catchAsync")
 
 exports.createTour = async (req, res, next) => {
   try {
@@ -13,25 +14,22 @@ exports.createTour = async (req, res, next) => {
   }
 };
 
-exports.getAllTour = async (req, res, next) => {
-  try {
-    const features = new ApiFeatures(Tour.find(), req.query)
-      .filter()
-      .sorting()
-      .fieldlimiting()
-      .paginate();
-    const allTours = await features.query;
 
-    res.status(200).json({
-      allTours,
-    });
-  } catch (error) {
-    res.status(200).json(error);
-  }
-};
+exports.getAllTour = catchAsync(async (req, res, next) => {
+  const features = new ApiFeatures(Tour.find(), req.query)
+    .filter()
+    .sorting()
+    .fieldlimiting()
+    .paginate();
+  const allTours = await features.query;
 
-exports.getTour = async (req, res, next) => {
-  try {
+  res.status(200).json({
+    allTours,
+  });
+});
+
+exports.getTour =  catchAsync(  async (req, res, next) => {
+ 
     const { id } = req.params;
 
     const singleTour = await Tour.findById(id);
@@ -39,13 +37,11 @@ exports.getTour = async (req, res, next) => {
     res.status(200).json({
       singleTour,
     });
-  } catch (error) {
-    res.status(200).json(error);
-  }
-};
+ 
+});
 
-exports.updateTour = async (req, res, next) => {
-  try {
+exports.updateTour =catchAsync(  async (req, res, next) => {
+  
     const { id } = req.params;
     const updateTour = await Tour.findByIdAndUpdate(id, req.body, {
       new: true,
@@ -55,13 +51,11 @@ exports.updateTour = async (req, res, next) => {
     res.status(200).json({
       updateTour,
     });
-  } catch (error) {
-    res.status(200).json(error);
-  }
-};
 
-exports.deleteTour = async (req, res, next) => {
-  try {
+});
+
+exports.deleteTour = catchAsync(async (req, res, next) => {
+
     const { id } = req.params;
 
     await Tour.findByIdAndDelete(id);
@@ -69,13 +63,11 @@ exports.deleteTour = async (req, res, next) => {
     res.status(200).json({
       msg: "value successfully deleted",
     });
-  } catch (error) {
-    res.status(200).json(error);
-  }
-};
+ 
+});
 
-exports.gettourStats = async (req, res, next) => {
-  try {
+exports.gettourStats = catchAsync ( async (req, res, next) => {
+  
     const stat = await Tour.aggregate([
       {
         $group: {
@@ -93,13 +85,11 @@ exports.gettourStats = async (req, res, next) => {
     res.status(200).json({
       stat,
     });
-  } catch (error) {
-    res.status(200).json(error);
-  }
-};
 
-exports.getMonthlyPlan = async (req, res, next) => {
-  try {
+});
+
+exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
+
     const year = req.params.year * 1;
     const plan = await Tour.aggregate([
       {
@@ -117,5 +107,5 @@ exports.getMonthlyPlan = async (req, res, next) => {
     res.status(200).json({
       plan,
     });
-  } catch (error) {}
-};
+
+});
