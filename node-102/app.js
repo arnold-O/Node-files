@@ -5,7 +5,7 @@ const tourRoutes = require("./route/tourRoutes");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 
-
+// console.log(process.env)
 
 const app = express();
 app.use(express.json());
@@ -14,6 +14,7 @@ app.use(express.json());
 app.use("/api/v1/tour", tourRoutes);
 
 // Error-handler
+
 app.all("*", (req, res, next) => {
   next(new AppError(`can't find ${req.originalUrl} on this server`, 404));
 });
