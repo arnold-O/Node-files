@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./.env" });
 const tourRoutes = require("./route/tourRoutes");
+const userRoutes = require("./route/userRoutes");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 // ROUTES
 app.use("/api/v1/tour", tourRoutes);
+app.use("/api/v1/user", userRoutes);
 
 // Error-handler
 
