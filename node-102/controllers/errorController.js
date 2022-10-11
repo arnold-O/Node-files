@@ -14,6 +14,14 @@ const handleValidationErrorDB = (err) => {
   const message = Object.values(err.errors).map((value) => value.message);
   return new AppError(message, 400);
 };
+const handleJsonwebtokenError = (err) => {
+  const message = `Token is invalid ! try Agian!!!!`;
+  return new AppError(message, 400);
+};
+const handleTokenExpiredError = (err) => {
+  const message = `Token has expired! try Agian!!!!`;
+  return new AppError(message, 400);
+};
 
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
@@ -21,7 +29,7 @@ const sendErrorDev = (err, res) => {
     message: err.message,
     stack: err.stack,
      err
-  });
+  });3
 };
 const sendErrorProd = (err, res) => {
   if (err.isOperational) {
@@ -50,6 +58,8 @@ module.exports = (err, req, res, next) => {
     if (err.name === 'CastError') err = handleCastErrorDB(err);
     if (err.code === 11000) err = handleDuplicateFieldsDB(err);
     if (err.name === 'ValidationError') err = handleValidationErrorDB(err);
+    if (err.name === 'JsonWebTokenError') err = handleJsonwebtokenError(err);
+    if (err.name === "TokenExpiredError") err = handleTokenExpiredError(err);
     
    return sendErrorProd(err, res);
   }
