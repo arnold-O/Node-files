@@ -3,6 +3,12 @@ const catchAsync = require("../utils/catchAsync");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
 
+const signToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
+
 exports.signUp = catchAsync(async (req, res, next) => {
   const { name, email, password, passwordConfirm } = req.body;
   const newUser = await User.create({
@@ -12,9 +18,8 @@ exports.signUp = catchAsync(async (req, res, next) => {
     passwordConfirm,
   });
 
-  const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
+  const token = signToken(newUser._id);
+
   res.status(201).json({
     status: "success",
     token,
@@ -40,7 +45,29 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("credentials are incorrect, please", 400));
   }
 
+  const token = signToken(user._id);
+
   res.status(200).json({
     status: "success",
+    token,
   });
 });
+
+
+exports.protect = catchAsync( async(req, res, next)=>{
+    let token ;
+  if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+    token = req.headers.authorization.split(' ')[1]
+
+  }
+  // console.log(token)
+
+  if(!token){
+    return next(new AppError('you are not logged in , please login ', 401))
+  }
+  
+
+  next()
+}
+
+)

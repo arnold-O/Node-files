@@ -11,6 +11,11 @@ const globalErrorHandler = require("./controllers/errorController");
 const app = express();
 app.use(express.json());
 
+app.use((req, res, next)=>{
+console.log(req.headers)
+next()
+})
+
 // ROUTES
 app.use("/api/v1/tour", tourRoutes);
 app.use("/api/v1/user", userRoutes);
