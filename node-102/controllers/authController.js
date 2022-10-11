@@ -10,12 +10,13 @@ const signToken = (id) => {
   });
 }
 exports.signUp = catchAsync(async (req, res, next) => {
-  const { name, email, password, passwordConfirm } = req.body;
+  const { name, email, password, passwordConfirm, role } = req.body;
   const newUser = await User.create({
     name,
     email,
     password,
     passwordConfirm,
+    role
   });
 
   const token = signToken(newUser._id);
@@ -68,7 +69,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  const currentUser = User.findById(decoded.id);
+  const currentUser = await User.findById(decoded.id);
 
   if (!currentUser) {
     return next(
@@ -84,3 +85,11 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 
 });
+
+
+
+exports.restricTo = catchAsync( async(req, res, next)=>{
+
+}
+
+)
