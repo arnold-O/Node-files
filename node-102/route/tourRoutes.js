@@ -1,5 +1,5 @@
 const express = require('express')
-const { protect, restricTo } = require('../controllers/authController')
+const { protect, restrictTo } = require('../controllers/authController')
 const { createTour, getAllTour, getTour, updateTour, deleteTour, gettourStats, getMonthlyPlan } = require('../controllers/tourController')
 
 
@@ -13,7 +13,7 @@ router.post('/create', createTour)
 router.get('/getall', protect, getAllTour)
 router.get('/getone/:id', getTour)
 router.patch('/update/:id', updateTour)
-router.delete('/delete/:id', restricTo('admin'), deleteTour)
+router.delete('/delete/:id', restrictTo('admin'), deleteTour)
 
 
 

@@ -8,7 +8,7 @@ const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
-}
+};
 exports.signUp = catchAsync(async (req, res, next) => {
   const { name, email, password, passwordConfirm, role } = req.body;
   const newUser = await User.create({
@@ -16,7 +16,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
     email,
     password,
     passwordConfirm,
-    role
+    role,
   });
 
   const token = signToken(newUser._id);
@@ -83,13 +83,15 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   req.user = currentUser;
   next();
-
 });
 
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(re.user.role)){
 
+      return next(new AppError("you do ot have permission", 403));
+    }
 
-exports.restricTo = catchAsync( async(req, res, next)=>{
-
-}
-
-)
+    next();
+  };
+};
