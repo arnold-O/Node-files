@@ -13,7 +13,7 @@ router.post('/create', createTour)
 router.get('/getall', protect, getAllTour)
 router.get('/getone/:id', getTour)
 router.patch('/update/:id', updateTour)
-router.delete('/delete/:id', restrictTo('admin'), deleteTour)
+router.delete('/delete/:id',protect, restrictTo('admin'), deleteTour)
 
 
 

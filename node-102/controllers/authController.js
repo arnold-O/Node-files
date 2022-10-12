@@ -87,11 +87,28 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    if (!roles.includes(re.user.role)){
+    if (!roles.includes(req.user.role)){
 
-      return next(new AppError("you do ot have permission", 403));
+      return next(new AppError("you do not have permission", 403));
     }
 
     next();
   };
 };
+
+
+exports.forgotPassword = catchAsync(async (req, res , next)=>{
+  const user = await User.findOne({email:req.body.email})
+  if(!user){
+    return next(new AppError('no user with that email address', 404))
+  }
+
+const resetToken = await user.createPasswordResetToken()
+
+await user.save({validateBeforeSave:false})
+
+})
+
+
+
+exports.resetPassword = (req, tres , next)=>{}
