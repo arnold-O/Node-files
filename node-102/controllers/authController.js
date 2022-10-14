@@ -4,12 +4,20 @@ const catchAsync = require("../utils/catchAsync");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
 const sendEmail = require("../utils/email");
-const crypto = require('crypto');
-
+const crypto = require("crypto");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+
+  res.status(statusCode).json({
+    status: "success",
+    token,
+    user,
   });
 };
 exports.signUp = catchAsync(async (req, res, next) => {
@@ -22,13 +30,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
     role,
   });
 
-  const token = signToken(newUser._id);
-
-  res.status(201).json({
-    status: "success",
-    token,
-    user: newUser,
-  });
+  createSendToken(newUser, 201, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -49,12 +51,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("credentials are incorrect, please", 400));
   }
 
-  const token = signToken(user._id);
-
-  res.status(200).json({
-    status: "success",
-    token,
-  });
+  createSendToken(user, 200, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -135,31 +132,45 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 });
 
-exports.resetPassword =catchAsync(  async(req, res, next) => {
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  const hashToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
 
+  const user = await User.findOne({
+    passwordResetToken: hashToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
 
-  const hashToken = crypto.createHash('sha256').update(req.params.token).digest('hex')
-
-
-  const user = await User.findOne({passwordResetToken:hashToken, passwordResetExpires:{$gt: Date.now()}})
-
-  if(!user){
-    return next(new AppError('Token is Invalid or has Expired', 400))
+  if (!user) {
+    return next(new AppError("Token is Invalid or has Expired", 400));
   }
 
-
-  user.password = req.body.password
-  user.passwordConfirm = req.body.passwordConfirm
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
   user.passwordResetToken = undefined;
-    user.passwordResetExpires = undefined;
-    await user.save();
+  user.passwordResetExpires = undefined;
+  await user.save();
 
+  createSendToken(user, 200, res);
+});
 
-    const token = signToken(user._id);
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select("password");
 
-    res.status(200).json({
-      status: "success",
-      token,
-    });
-  
+  const passwordCheck = await user.correctpassword(
+    req.body.passwordCurrent,
+    user.password
+  );
+
+  if (!passwordCheck) {
+    return next(new AppError("credentials are incorrect, please", 400));
+  }
+
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  await user.save();
+
+  createSendToken(user, 200, res);
 });
