@@ -34,7 +34,18 @@ exports.signUp = catchAsync(async (req, res, next) => {
 });
 
 exports.login = catchAsync(async (req, res, next) => {
+
   const { email, password } = req.body;
+
+
+
+  // when login in, u need to also check for active users
+
+  // const deletedUser = await User.findOne({email, active:false})
+ 
+  // if(deletedUser){
+  //   return next(new AppError('please reactivate your account', 200))
+  // }
 
   if (!email || !password) {
     return next(new AppError("please provide your Email and Password", 400));
