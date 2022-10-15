@@ -95,6 +95,14 @@ const tourSchema = new mongoose.Schema({
 // next()
 // })
 
+tourSchema.pre(/^find/, function(next){
+  this.populate({
+    path:"guides",
+    select:"-__v -passwordChangedAt"
+  })
+  next()
+})
+
 const Tour = mongoose.model("Tour", tourSchema);
 
 module.exports = Tour;
