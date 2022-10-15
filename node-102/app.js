@@ -1,4 +1,9 @@
 const express = require("express");
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
+const hpp = require("hpp");
+const xss = require("xss-clean");
+const mongoSanitize = require("express-mongo-sanitize");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./.env" });
 const tourRoutes = require("./route/tourRoutes");
@@ -9,12 +14,33 @@ const globalErrorHandler = require("./controllers/errorController");
 // console.log(process.env)
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
 
-// app.use((req, res, next)=>{
-// console.log(req.headers)
-// next()
-// })
+// Global middlewares
+
+// data sanitization
+app.use(mongoSanitize);
+app.use(xss());
+app.use(
+  hpp({
+    whitelist: [
+      "duration",
+      "ratingsQuantity",
+      "difficulty",
+      "ratingsAvg",
+      "maxGroupSize",
+    ],
+  })
+);
+
+app.use(helmet());
+
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: "Too many request from this IP please try again in an hour",
+});
+app.use("/api", limiter);
 
 // ROUTES
 app.use("/api/v1/tour", tourRoutes);

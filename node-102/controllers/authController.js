@@ -14,10 +14,39 @@ const signToken = (id) => {
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
 
+  if (process.env.NODE_ENV === "production") {
+    res.cookie("jwt", token, {
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      ),
+      secure: true,
+      httpOnly: true,
+    });
+  }
+
+  if (process.env.NODE_ENV === "development") {
+    res.cookie("jwt", token, {
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      ),
+
+      httpOnly: true,
+      secure: true,
+    });
+  }
+
+  const userData = {
+    name: user.name,
+    role: user.role,
+    active: user.active,
+    id: user._id,
+    email: user.email,
+  };
+
   res.status(statusCode).json({
     status: "success",
     token,
-    user,
+    userData,
   });
 };
 exports.signUp = catchAsync(async (req, res, next) => {
@@ -34,15 +63,12 @@ exports.signUp = catchAsync(async (req, res, next) => {
 });
 
 exports.login = catchAsync(async (req, res, next) => {
-
   const { email, password } = req.body;
-
-
 
   // when login in, u need to also check for active users
 
   // const deletedUser = await User.findOne({email, active:false})
- 
+
   // if(deletedUser){
   //   return next(new AppError('please reactivate your account', 200))
   // }
