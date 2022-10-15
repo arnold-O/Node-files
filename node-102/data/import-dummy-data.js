@@ -7,7 +7,7 @@ dotenv.config({ path: "../.env" });
 
 const DB = process.env.DATABASE;
 
-mongoose.connect('mongodb+srv://arnoldoghiator:9YMrMHCUFm8gu7Bv@cluster0.rtqwg.mongodb.net/tours?retryWrites=true', {}).then((conn) => {
+mongoose.connect(DB, {}).then((conn) => {
   // console.log(conn.connection);
 });
 
