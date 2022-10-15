@@ -1,21 +1,22 @@
 const mongoose = require('mongoose')
 
 
-const reviewSchema = mongoose.Schema({
+const reviewSchema = new mongoose.Schema({
     review:{
         type:String,
-        required:true,
+        required:[true, 'Review can not be Empty'],
         trim:true,
         lowercase:true
     },
      rating:{
         type:Number,
         required:true,
-        default:4.5
+        min:1,
+        max:5
      },
       createdAt:{
         type:Date,
-        default: new Date.now() 
+        default: Date.now 
       },
 
       tour:{
@@ -24,12 +25,13 @@ const reviewSchema = mongoose.Schema({
       },
       user:{
         type:mongoose.Schema.ObjectId,
-        ref:"User"
+        ref:"User",
+        required:true
       }
      
 })
 
 
-const Review = mongoose.Model('Review', reviewSchema)
+const Review = mongoose.model('Review', reviewSchema)
 
 module.exports = Review

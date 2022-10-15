@@ -8,6 +8,7 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "./.env" });
 const tourRoutes = require("./route/tourRoutes");
 const userRoutes = require("./route/userRoutes");
+const reviewRoutes = require("./route/reviewRoute");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 
@@ -45,6 +46,7 @@ app.use("/api", limiter);
 // ROUTES
 app.use("/api/v1/tour", tourRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/review", reviewRoutes);
 
 // Error-handler
 
