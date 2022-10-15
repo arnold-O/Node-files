@@ -53,6 +53,30 @@ const tourSchema = new mongoose.Schema({
     default: Date.now(),
   },
   startDates: [Date],
+
+  startLocation:{
+    type:{
+        type:String,
+        default:'Point',
+        enum: ['Point']
+    },
+    coordinates: [Number],
+    address:String,
+    description:String
+  },
+  location:[
+    {
+      type:{
+        type:String,
+        default:'Point',
+        enum: ['Point']
+      },
+      coordinates: [Number],
+      address:String,
+      description:String,
+      day:Number
+    }
+  ]
 });
 
 const Tour = mongoose.model("Tour", tourSchema);

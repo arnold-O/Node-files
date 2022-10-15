@@ -19,7 +19,7 @@ app.use(express.json({ limit: "10kb" }));
 // Global middlewares
 
 // data sanitization
-app.use(mongoSanitize);
+// app.use(mongoSanitize);
 app.use(xss());
 app.use(
   hpp({

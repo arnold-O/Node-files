@@ -165,7 +165,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
 
-    return next(new AppError("There was error sending the Email", 500));
+    return next(new Error("There was error sending the Email", 500));
   }
 });
 
@@ -211,3 +211,6 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   createSendToken(user, 200, res);
 });
+
+
+

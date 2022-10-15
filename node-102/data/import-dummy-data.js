@@ -7,14 +7,14 @@ dotenv.config({ path: "../.env" });
 
 const DB = process.env.DATABASE;
 
-mongoose.connect(DB, {}).then((conn) => {
+mongoose.connect('mongodb+srv://arnoldoghiator:9YMrMHCUFm8gu7Bv@cluster0.rtqwg.mongodb.net/tours?retryWrites=true', {}).then((conn) => {
   // console.log(conn.connection);
 });
 
 // read file from the data-one.js
 
 const tourFiles = JSON.parse(
-  fs.readFileSync(`${__dirname}/data-one.json`, "utf-8")
+  fs.readFileSync(`${__dirname}/data-complete.json`, "utf-8")
 );
 
 const importData = async () => {
