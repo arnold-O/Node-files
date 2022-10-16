@@ -83,7 +83,11 @@ const tourSchema = new mongoose.Schema({
       type:mongoose.Schema.ObjectId,
       ref:"User"
     }
-  ]
+  ],
+
+},{
+  toJSON:{virtuals:true},
+  toObject:{virtuals:true}
 });
 
 
@@ -94,6 +98,11 @@ const tourSchema = new mongoose.Schema({
 //   this.guides = await Promise.all(this.guidesPromises)
 // next()
 // })
+tourSchema.virtual('reviews',{
+  ref:'Review',
+  foreignField:'tour',
+  localField:'_id'
+})
 
 tourSchema.pre(/^find/, function(next){
   this.populate({
