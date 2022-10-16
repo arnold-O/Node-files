@@ -1,5 +1,6 @@
 const express = require('express')
 const { signUp, login, forgotPassword, resetPassword, updatePassword, protect } = require('../controllers/authController')
+
 const { updateMe, deleteMe, getAllUser } = require('../controllers/userController')
 
 const router = express.Router()
@@ -15,6 +16,12 @@ router.delete('/deleteme', protect, deleteMe)
 
 
 router.get('/getalluser', getAllUser)
+
+
+
+// review implimentation
+
+
 
 
 
