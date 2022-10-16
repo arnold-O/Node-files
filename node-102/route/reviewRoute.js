@@ -4,12 +4,14 @@ const express = require('express')
 const { protect, restrictTo } = require('../controllers/authController')
 const { createReview, getAllReview } = require('../controllers/reviewControllers')
 
-const router = express.Router()
+const router = express.Router({mergeParams:true})
 
-router.post('/create',protect, restrictTo('user'), createReview)
+
+router.post('/', protect, restrictTo('user'), createReview)
+
+
+// router.post('/create',protect, restrictTo('user'), createReview)
 router.get('/allreview', getAllReview)
-
-
 
 
 
