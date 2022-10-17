@@ -26,7 +26,9 @@ exports.createReview = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllReview = catchAsync(async (req, res, next) => {
-  const allReviews = await Review.find();
+    let filter = {}
+  if(req.params.tourId) filter = {tour:req.params.tourId}
+  const allReviews = await Review.find(filter);
 
   res.status(201).json({
     status: "success",
