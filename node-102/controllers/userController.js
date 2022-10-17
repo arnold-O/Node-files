@@ -50,7 +50,8 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteUser = factory.deleteOne(User);
+
+
 
 exports.deleteMe = catchAsync(async(req, res, next)=>{
     await User.findByIdAndUpdate(req.user.id, {active:false})
@@ -59,3 +60,6 @@ exports.deleteMe = catchAsync(async(req, res, next)=>{
         data:null
     })
 })
+
+exports.deleteUser = factory.deleteOne(User);
+exports.updateUser = factory.updateOne(User);

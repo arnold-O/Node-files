@@ -4,17 +4,6 @@ const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const factory = require('./handlerFactory')
 
-exports.createTour = catchAsync(async (req, res, next) => {
-  const newTour = await Tour.create(req.body);
-  if (!newTour) {
-    return next(new AppError("No tour found with that id ", 404));
-  }
-
-  res.status(200).json({
-    newTour,
-  });
-});
-
 exports.getAllTour = catchAsync(async (req, res, next) => {
   const features = new ApiFeatures(Tour.find(), req.query)
     .filter()
@@ -35,7 +24,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
   if (!tour) {
     return next(new AppError("No tour found with that ID", 404));
   }
-
+  
   res.status(200).json({
     status: "success",
     data: {
@@ -43,12 +32,10 @@ exports.getTour = catchAsync(async (req, res, next) => {
     },
   });
 });
+
 exports.updateTour = factory.updateOne(Tour)
-
-
-
-
 exports.deleteTour = factory.deleteOne(Tour)
+exports.createTour = factory.createOne(Tour)
 
 
 
@@ -65,7 +52,7 @@ exports.gettourStats = catchAsync(async (req, res, next) => {
     },
     {
       $sort: { avgPrice: 1 },
-
+      
     },
   ]);
   res.status(200).json({

@@ -29,4 +29,16 @@ exports.deleteOne = Model =>catchAsync(async (req, res, next) => {
       data: doc
     });
   });
+
+
+  exports.createOne = Model => catchAsync(async (req, res, next) => {
+    const doc = await Model.create(req.body);
+    if (!doc) {
+      return next(new AppError("No doc found with that id ", 404));
+    }
+  
+    res.status(200).json({
+      data: doc
+    });
+  });
   

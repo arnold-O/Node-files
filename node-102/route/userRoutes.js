@@ -14,6 +14,7 @@ const {
   deleteMe,
   getAllUser,
   deleteUser,
+  updateUser,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -25,11 +26,14 @@ router.patch("/resetpassword/:token", resetPassword);
 router.patch("/updatemypassword", protect, updatePassword);
 
 router.patch("/updateme", protect, updateMe);
-router.delete("/deleteme", protect, restrictTo("admin"), deleteMe);
+router.delete("/deleteme", protect, restrictTo('user'), deleteMe);
 
 router.delete("/:id", protect, restrictTo("admin"), deleteUser);
 
 router.get("/getalluser", getAllUser);
+
+// update user by Admin
+router.patch("/:id", updateUser);
 
 // review implimentation
 
