@@ -9,22 +9,7 @@ exports.getTour = factory.getOne(Tour, {path:'reviews'})
 exports.updateTour = factory.updateOne(Tour)
 exports.deleteTour = factory.deleteOne(Tour)
 exports.createTour = factory.createOne(Tour)
-
-
-
-exports.getAllTour = catchAsync(async (req, res, next) => {
-  const features = new ApiFeatures(Tour.find(), req.query)
-    .filter()
-    .sorting()
-    .fieldlimiting()
-    .paginate();
-  const allTours = await features.query;
-
-  res.status(200).json({
-    allTours,
-  });
-});
-
+exports.getAllTour = factory.getAll(Tour)
 
 
 exports.gettourStats = catchAsync(async (req, res, next) => {
@@ -70,20 +55,3 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
 
 
 
-
-// exports.getTour = catchAsync(async (req, res, next) => {
-//   const tour = await Tour.findById(req.params.id).populate('reviews');
-//   // Tour.findOne({ _id: req.params.id })
-
-//   if (!tour) {
-//     return next(new AppError("No tour found with that ID", 404));
-//   }
-  
-//   res.status(200).json({
-//     status: "success",
-//     data: {
-//       tour,
-//     },
-//   });
-// });
-// // 

@@ -1,3 +1,4 @@
+const ApiFeatures = require("../utils/apiFeatures");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
@@ -60,5 +61,22 @@ exports.getOne = (Model, popOptions) =>
       data: {
         data: doc,
       },
+    });
+  });
+
+exports.getAll = (Model) =>
+  catchAsync(async (req, res, next) => {
+    let filter = {};
+    if (req.params.tourId) filter = { tour: req.params.tourId };
+
+    const features = new ApiFeatures(Model.find(filter), req.query)
+      .filter()
+      .sorting()
+      .fieldlimiting()
+      .paginate();
+    const doc = await features.query;
+
+    res.status(200).json({
+      data: doc,
     });
   });
