@@ -15,16 +15,18 @@ exports.deleteOne = Model =>catchAsync(async (req, res, next) => {
     });
   });
 
-// exports.deleteTour = catchAsync(async (req, res, next) => {
-//     const { id } = req.params;
+  exports.updateOne = Model => catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const doc = await Model.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!doc) {
+      return next(new AppError("No doc found with that id ", 404));
+    }
   
-//     const tour = await Tour.findByIdAndDelete(id);
+    res.status(200).json({
+      data: doc
+    });
+  });
   
-//     if (!tour) {
-//       return next(new AppError("No tour found with that id ", 404));
-//     }
-  
-//     res.status(200).json({
-//       msg: "value successfully deleted",
-//     });
-//   });
