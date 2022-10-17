@@ -99,7 +99,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(" ")[1];
   }
-  // console.log(token)
+ 
 
   if (!token) {
     return next(new AppError("you are not logged in , please login ", 401));
@@ -211,6 +211,3 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   createSendToken(user, 200, res);
 });
-
-
-

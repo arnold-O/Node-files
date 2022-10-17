@@ -2,15 +2,13 @@ const Tour = require("../model/tour");
 const ApiFeatures = require("../utils/apiFeatures");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
-const factory = require('./handlerFactory')
+const factory = require("./handlerFactory");
 
-
-exports.getTour = factory.getOne(Tour, {path:'reviews'})
-exports.updateTour = factory.updateOne(Tour)
-exports.deleteTour = factory.deleteOne(Tour)
-exports.createTour = factory.createOne(Tour)
-exports.getAllTour = factory.getAll(Tour)
-
+exports.getTour = factory.getOne(Tour, { path: "reviews" });
+exports.updateTour = factory.updateOne(Tour);
+exports.deleteTour = factory.deleteOne(Tour);
+exports.createTour = factory.createOne(Tour);
+exports.getAllTour = factory.getAll(Tour);
 
 exports.gettourStats = catchAsync(async (req, res, next) => {
   const stat = await Tour.aggregate([
@@ -25,7 +23,6 @@ exports.gettourStats = catchAsync(async (req, res, next) => {
     },
     {
       $sort: { avgPrice: 1 },
-      
     },
   ]);
   res.status(200).json({
@@ -52,6 +49,3 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
     plan,
   });
 });
-
-
-

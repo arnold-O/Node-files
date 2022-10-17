@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "please provide a passord"],
     minlength: 6,
-    select:false
+    select: false,
   },
   passwordConfirm: {
     type: String,
@@ -41,24 +41,18 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
-  active:{
-    type:Boolean,
-    default:true,
-    select:false
-   
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
   },
-
- 
 });
 
+userSchema.pre(/^find/, function (next) {
+  this.find({ active: true });
 
-userSchema.pre(/^find/, function(next){
-  this.find({active:true})
-
-
-next()
-
-})
+  next();
+});
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
@@ -75,7 +69,6 @@ userSchema.pre("save", function (next) {
 
   next();
 });
-
 
 userSchema.methods.correctpassword = async function (
   candidatePassword,
@@ -113,4 +106,3 @@ userSchema.methods.createPasswordResetToken = async function () {
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
-  
