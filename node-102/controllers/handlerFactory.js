@@ -17,6 +17,7 @@ exports.deleteOne = (Model) =>
     });
   });
 
+  
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const { id } = req.params;
@@ -45,6 +46,8 @@ exports.createOne = (Model) =>
     });
   });
 
+
+
 exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
@@ -63,6 +66,8 @@ exports.getOne = (Model, popOptions) =>
       },
     });
   });
+
+
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
