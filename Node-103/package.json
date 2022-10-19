@@ -4,12 +4,15 @@
   "description": "ecommerce project with node and mongoDB",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon server.js"
+    "start:prod": "NODE_ENV=production nodemon server.js",
+    "dev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.20"
   }
 }
