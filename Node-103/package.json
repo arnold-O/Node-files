@@ -1,0 +1,11 @@
+{
+  "name": "node-103",
+  "version": "1.0.0",
+  "description": "ecommerce project with node and mongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
