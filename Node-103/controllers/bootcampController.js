@@ -33,6 +33,23 @@ exports.getAllBootcamp = async(req, res, next)=>{
     });
   }
 };
+exports.getBootcamp = async(req, res, next)=>{
+  try {
+    const allCamps = await Bootcamp.findById(req.params.id)
+
+    res.status(200).json({
+        nbHits:allCamps.length,
+      status: "success",
+      allCamps,
+    });
+  } catch (error) {
+    // res.status(400).json({
+    //   status: "fail",
+    //   message: error
+    // });
+    next(error)
+  }
+};
 
 
 

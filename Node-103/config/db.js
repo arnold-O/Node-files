@@ -15,5 +15,4 @@ const connectedDB = async()=>{
 }
 
 
-
 module.exports = connectedDB
