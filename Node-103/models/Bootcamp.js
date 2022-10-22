@@ -37,7 +37,7 @@ const BootcampSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      required: [true, "Please add an adress"],
+      required: [true, "Please add an address"],
     },
     location: {
       type: {
@@ -57,7 +57,7 @@ const BootcampSchema = new mongoose.Schema(
       zipcode: String,
       country: String,
     },
-    carrers: {
+    careers: {
       type: [String],
       required: true,
       enum: [
@@ -99,21 +99,23 @@ const BootcampSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    user: {
-      type: mongoose.Schema.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    // user: {
+    //   type: mongoose.Schema.ObjectId,
+    //   ref: "User",
+    //   required: true,
+    // },
   },
-  {
-    toJSON: {
-      virtuals: true,
-    },
-    toObject: {
-      virtuals: true,
-    },
-  }
+  // {
+  //   toJSON: {
+  //     virtuals: true,
+  //   },
+  //   toObject: {
+  //     virtuals: true,
+  //   },
+  // }
 );
+
+
 
 const Bootcamp = mongoose.model("Bootcamp", BootcampSchema);
 
