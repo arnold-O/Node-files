@@ -140,6 +140,7 @@ BootcampSchema.pre('save', async function(next){
     zipcode: location[0].zipcode,
     country: location[0].countryCode
   }
+  this.address = undefined
   next()
 })
 

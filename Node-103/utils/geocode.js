@@ -1,11 +1,12 @@
 const nodeGeocoder = require('node-geocoder')
-
+const dotenv = require('dotenv')
+dotenv.config({path: './.env'})
 
 
 const options = {
     provider: process.env.GEOCODER_PROVIDER,
     httpAdapter:'https',
-    apiKEy: process.env.GEOCODER_API_KEY,
+    apiKey: process.env.GEOCODER_API_KEY,
     formatter:null
 
 }
