@@ -20,8 +20,16 @@ try{
 };
 
 exports.getAllBootcamp = asyncHandler(  async (req, res, next) => {
+      let queryQuery = { ...req.query}
+  let query;
 
-    const allCamps = await Bootcamp.find();
+  let queryString = JSON.stringify(queryQuery)
+
+  queryString = queryString.replace(/\b(gt|gte|lt|lte|in)\b/g, match =>`$${match}`)
+
+  query = Bootcamp.find(JSON.parse(queryString));
+
+    const allCamps = await query
 
     res.status(200).json({
       nbHits: allCamps.length,

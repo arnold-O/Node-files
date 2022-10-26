@@ -145,11 +145,7 @@ BootcampSchema.pre('save', async function(next){
 })
 
 
-
-
-
-
-
+ 
 
 const Bootcamp = mongoose.model("Bootcamp", BootcampSchema);
 
