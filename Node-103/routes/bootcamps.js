@@ -4,8 +4,13 @@ const {
   getAllBootcamp,
   getBootcamp,
 } = require("../controllers/bootcampController");
+const courseRouter = require('./course')
 
 const router = express.Router();
+
+
+// re-route to  other resource
+router.use('/:bootcampId/courses', courseRouter)
 
 router.get("/getall", getAllBootcamp);
 

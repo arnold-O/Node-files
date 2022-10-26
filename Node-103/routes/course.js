@@ -2,9 +2,10 @@ const express = require("express");
 const { getCourses } = require("../controllers/courseController");
 
 
-const router = express.Router();
+const router = express.Router({mergeParams:true});
 
-router.get("/getall", getCourses);
+
+router.get("/", getCourses);
 
 // router.post("/create", createBootcamp);
 
