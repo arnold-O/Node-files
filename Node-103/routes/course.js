@@ -1,15 +1,12 @@
 const express = require("express");
-const { getCourses } = require("../controllers/courseController");
+const { getCourses, getCourse } = require("../controllers/courseController");
 
-
-const router = express.Router({mergeParams:true});
-
+const router = express.Router({ mergeParams: true });
 
 router.get("/", getCourses);
 
 // router.post("/create", createBootcamp);
 
-// router.get("/:id", getBootcamp);
-
+router.get("/:id", getCourse);
 
 module.exports = router;

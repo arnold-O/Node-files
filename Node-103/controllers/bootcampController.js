@@ -56,7 +56,7 @@ exports.getAllBootcamp = asyncHandler(  async (req, res, next) => {
   // pagination
 
   const page = parseInt(req.query.page, 10) || 1
-  const limit = parseInt(req.query.limit, 10) || 2
+  const limit = parseInt(req.query.limit, 10) || 10
 
   const startIndex = (page - 1)* limit
   const endIndex = page * limit
@@ -116,14 +116,14 @@ exports.getBootcamp = asyncHandler ( async (req, res, next) => {
 
     const bootCamp = await Bootcamp.findById(req.params.id)
 
-    if(bootCamp){
+    if(!bootCamp){
       return next(new ErrorResponse(`Bootcamp not found with ID of ${req.params.id}`, 404))
     }
     bootCamp.remove();
 
     res.status(200).json({
       status:"success",
-      bootCamp
+      message:"deleted successfully"
     })
   })
 
