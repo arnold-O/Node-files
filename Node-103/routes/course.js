@@ -1,5 +1,5 @@
 const express = require("express");
-const { getCourses, getCourse, addCourse, updateCourse } = require("../controllers/courseController");
+const { getCourses, getCourse, addCourse, updateCourse, deleteCourse } = require("../controllers/courseController");
 
 const router = express.Router({ mergeParams: true });
 
