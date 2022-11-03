@@ -4,6 +4,7 @@ const {
   getAllBootcamp,
   getBootcamp,
   deleteBootcamp,
+  bootcampPhoto,
 } = require("../controllers/bootcampController");
 const courseRouter = require('./course')
 
@@ -20,6 +21,7 @@ router.post("/create", createBootcamp);
 // id functionality
 router.get("/:id", getBootcamp);
 router.delete("/:id", deleteBootcamp);
+router.put("/:id/photo", bootcampPhoto);
 
 
 module.exports = router;

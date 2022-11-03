@@ -20,6 +20,7 @@ mongoose.connect(process.env.MONGO_URI, {
 // read Json file
 
 const bootcamps = JSON.parse(fs.readFileSync(`${__dirname}/data/bootcamp.json`, 'utf-8'))
+const courses = JSON.parse(fs.readFileSync(`${__dirname}/data/courses.json`, 'utf-8'))
 
 
 // send or import to data 
@@ -27,6 +28,7 @@ const bootcamps = JSON.parse(fs.readFileSync(`${__dirname}/data/bootcamp.json`, 
 const dbImport = async()=>{
     try {
         await Bootcamp.create(bootcamps)
+        await Course.create(courses)
         console.log('data imported')
     } catch (error) {
         console.log(error)
@@ -37,6 +39,7 @@ const dbImport = async()=>{
 const dbDelete = async()=>{
     try {
         await Bootcamp.deleteMany()
+        await Course.deleteMany()
         console.log('data deleted')
 
         process.exit()

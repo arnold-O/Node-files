@@ -127,3 +127,22 @@ exports.getBootcamp = asyncHandler ( async (req, res, next) => {
     })
   })
 
+
+
+  // @desc   Upload photo for bootcamp
+
+
+  exports.bootcampPhoto =  asyncHandler(async (req, res, next)=>{
+    const bootCamp = await Bootcamp.findById(req.params.id)
+
+    if(!bootCamp){
+      return next(new ErrorResponse(`Bootcamp not found with ID of ${req.params.id}`, 404))
+    }
+
+    if(!req.files){
+      return next(new ErrorResponse('Please upload a file', 400))
+    }
+
+    
+  })
+
