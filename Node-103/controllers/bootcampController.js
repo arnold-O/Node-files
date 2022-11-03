@@ -143,6 +143,15 @@ exports.getBootcamp = asyncHandler ( async (req, res, next) => {
       return next(new ErrorResponse('Please upload a file', 400))
     }
 
+    const file = req.files.file
+    // test file to be photo
+
+    if(!file.mimetype.startsWith('image')){
+      return next(new ErrorResponse('Please upload an image file', 400))
+
+    }
+
+
     
   })
 
