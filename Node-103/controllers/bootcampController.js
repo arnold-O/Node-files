@@ -1,6 +1,7 @@
 const Bootcamp = require("../models/Bootcamp");
 const asyncHandler = require("../utils/asynceWrapper");
 const ErrorResponse = require("../utils/errorResponse");
+const path = require('path')
 
 exports.createBootcamp = async (req, res, next) => {
 try{ 
@@ -144,14 +145,39 @@ exports.getBootcamp = asyncHandler ( async (req, res, next) => {
     }
 
     const file = req.files.file
+    
+    
     // test file to be photo
-
     if(!file.mimetype.startsWith('image')){
       return next(new ErrorResponse('Please upload an image file', 400))
-
+      
     }
-
-
     
+    
+    // check file size
+    
+    if(file.size >process.env.MAX_FILE_UPLOAD){
+      return next( new ErrorResponse(`please upload file less than ${process.env.MAX_FILE_UPLOAD}`, 400))
+    }
+    
+    // create custom name , for if same file has one dir name , it will overwrite 
+    
+    file.name = `photo_${bootCamp._id}${path.parse(file.name).ext}`
+    
+  file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async err=>{
+    if(err){
+
+      console.log(err)
+      return next(new ErrorResponse(`file upload error`, 404))
+    }
+    await Bootcamp.findByIdAndUpdate(req.params.id, {photo : file.name})
+
+    res.status(200).json({
+      status:"success",
+      data : file.name
+    })
+
+  })
+
   })
 
