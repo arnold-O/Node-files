@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 
-
 const CourseSchema = new mongoose.Schema({
 
     name:{
@@ -18,19 +17,9 @@ const CourseSchema = new mongoose.Schema({
         type:String,
         required:[true, 'please add number of weeks']
     },
-    tuition:{
-        type:Number,
-        required:[true, 'please add a tuition cost']
-    },
-    minimumSkill:{
-        type:String,
-        required:[true, 'please add a minimum skill'],
-        enum:['beginner','intermediate', 'advanced']
-    },
-    scholarshipAvailable:{
-        type:Boolean,
-        default:false
-    },
+
+
+    
     createdAt:{
         type:Date,
         default:Date.now

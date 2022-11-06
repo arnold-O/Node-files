@@ -7,6 +7,8 @@ const {
   bootcampPhoto,
 } = require("../controllers/bootcampController");
 const courseRouter = require('./course')
+const Bootcamp = require('../models/Bootcamp');
+const appFeatures = require("../middleware/appFeatures");
 
 const router = express.Router();
 
@@ -14,7 +16,7 @@ const router = express.Router();
 // re-route to  other resource
 router.use('/:bootcampId/courses', courseRouter)
 
-router.get("/getall", getAllBootcamp);
+router.get("/getall", appFeatures(Bootcamp, "courses"), getAllBootcamp);
 
 router.post("/create", createBootcamp);
 

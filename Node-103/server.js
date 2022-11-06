@@ -45,9 +45,9 @@ const PORT = process.env.PORT || 5000
 
 // Handle unhandled promise Rejection
 
-process.on('unhandledRejection', (err, promise)=>{
+process.on('unhandledRejection', (err)=>{
     console.log(`${err.message}`.red.bold)
-    // close and exit process
-
+    
     server.close(()=>process.exit(1))
 })
+
