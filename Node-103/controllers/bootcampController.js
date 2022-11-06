@@ -23,13 +23,7 @@ try{
 exports.getAllBootcamp = asyncHandler(  async (req, res, next) => {
  
 
-    res.status(200).json({
-      nbHits: allCamps.length,
-      status: "success",
-      paginate ,
-      allCamps
-
-    });
+    res.status(200).json(res.advanceResult);
 
   })
 

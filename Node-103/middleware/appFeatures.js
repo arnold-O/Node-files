@@ -44,6 +44,7 @@ const total = await model.countDocuments()
 
 
 query = query.skip(startIndex).limit(limit)
+
 if(populate){
     query = query.populate(populate)
 }
