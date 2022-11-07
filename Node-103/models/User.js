@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
-
-const CourseSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
 
     name:{
         type:String,
@@ -29,9 +28,9 @@ const CourseSchema = new mongoose.Schema({
         select:false
     },
     resetPasswordToken:String,
-    resetPasswordTokenExpire:String,
+    resetPasswordExpire:Date,
 
-    
+
     createdAt:{
         type:Date,
         default:Date.now
@@ -44,6 +43,6 @@ const CourseSchema = new mongoose.Schema({
 
 
 
-module.exports= mongoose.model('User', CourseSchema)
+module.exports= mongoose.model('User', UserSchema)
 
 

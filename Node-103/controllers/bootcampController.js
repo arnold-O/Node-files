@@ -1,5 +1,5 @@
 const Bootcamp = require("../models/Bootcamp");
-const asyncHandler = require("../utils/asynceWrapper");
+const asyncHandler = require("../utils/asyncWrapper");
 const ErrorResponse = require("../utils/errorResponse");
 const path = require('path')
 

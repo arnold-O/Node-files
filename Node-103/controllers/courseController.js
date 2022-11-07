@@ -1,6 +1,6 @@
 const Bootcamp = require("../models/Bootcamp");
 const Course = require("../models/Course");
-const asyncHandler = require("../utils/asynceWrapper");
+const asyncHandler = require("../utils/asyncWrapper");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.getCourses = asyncHandler(async (req, res, next) => {
