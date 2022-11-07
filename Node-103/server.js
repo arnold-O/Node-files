@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const morgan = require('morgan')
 const colors = require('colors')
 const fileupload = require('express-fileupload')
+const cookieParser = require('cookie-parser')
 const path = require('path')
 const bootcamps = require('./routes/bootcamps')
 const courses = require('./routes/course')
@@ -19,6 +20,8 @@ connectedDB()
 const app = express()
 
 app.use(express.json())
+// Cookie-parser
+app.use(cookieParser())
 
 // dev logging middleware
 if(process.env.NODE_ENV ==='development'){
