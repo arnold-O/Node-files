@@ -60,6 +60,13 @@ UserSchema.methods.getSignedJwtToken = function(){
 }
 
 
+// comapre password 
+
+UserSchema.methods.matchPassword= async function(enteredPassword){
+
+  return await bcrypt.compare(enteredPassword, this.password)
+
+}
 
 
 
