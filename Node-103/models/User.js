@@ -8,16 +8,28 @@ const CourseSchema = new mongoose.Schema({
         trim:true,
         required:[true, 'please add a course title']
     },
-    email:{
+    email: {
+        type: String,
+        required: [true, 'please enter email'],
+        unique:true,
+        match: [
+          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+          "Please use a valid email adress",
+        ],
+      },
+      role:{
         type:String,
-     
-        required:[true, 'please add a description']
-    },
+        enum:['user', 'publiisher'],
+        default:'user'
+      },
     password:{
         type:String,
-        required:[true, 'please add number of weeks']
+        required:[true, 'please add number of weeks'],
+        minlength:6,
+        select:false
     },
-
+    resetPasswordToken:String,
+    resetPasswordTokenExpire:String,
 
     
     createdAt:{

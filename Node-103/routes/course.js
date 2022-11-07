@@ -1,9 +1,14 @@
 const express = require("express");
 const { getCourses, getCourse, addCourse, updateCourse, deleteCourse } = require("../controllers/courseController");
+const appFeatures = require("../middleware/appFeatures");
+const Course = require("../models/Course");
 
 const router = express.Router({ mergeParams: true });
 
-router.get("/", getCourses);
+router.get("/", appFeatures(Course, {
+    path: "bootcamp",
+    select: "name description",
+  }), getCourses);
 
 // router.post("/create", createBootcamp);
 
