@@ -1,7 +1,7 @@
 const express = require("express");
 const { getCourses, getCourse, addCourse, updateCourse, deleteCourse } = require("../controllers/courseController");
 const appFeatures = require("../middleware/appFeatures");
-const { protect } = require("../middleware/protected");
+const { protect, authorize } = require("../middleware/protected");
 const Course = require("../models/Course");
 
 const router = express.Router({ mergeParams: true });
@@ -14,8 +14,8 @@ router.get("/", appFeatures(Course, {
 // router.post("/create", createBootcamp);
 
 router.get("/:id", getCourse);
-router.post("/",protect, addCourse);
-router.patch("/:id",protect, updateCourse);
-router.delete("/:id",protect, deleteCourse);
+router.post("/",protect,authorize('publisher', 'admin') ,addCourse);
+router.patch("/:id",protect,authorize('publisher', 'admin'), updateCourse);
+router.delete("/:id",protect,authorize('publisher', 'admin'), deleteCourse);
 
 module.exports = router;

@@ -11,6 +11,4 @@ router.post('/register', register)
 router.post('/login', login)
 router.get('/getme', protect, authorize('user'), getMe)
 
-
-
 module.exports = router

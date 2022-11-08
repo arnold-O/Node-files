@@ -3,8 +3,18 @@ const asyncHandler = require("../utils/asyncWrapper");
 const ErrorResponse = require("../utils/errorResponse");
 const path = require('path')
 
-exports.createBootcamp = async (req, res, next) => {
-try{ 
+exports.createBootcamp = asyncHandler(  async (req, res, next) => {
+  // add user to body
+  req.body.user = req.user.id
+
+  // check if user has already published an article and if he or she is an admin 
+
+  const alreadyPublished = await Bootcamp.findOne({user:req.user.id})
+
+  if(alreadyPublished && req.user.role !== 'admin'){
+    return next(new ErrorResponse('please you can only publish one Bootcamp '))
+  }
+
   const newBootcamp = await Bootcamp.create(req.body);
 
   res.status(200).json({
@@ -12,13 +22,8 @@ try{
     newBootcamp,
   });
 
-} catch(err){
-  next(err)
-
-}
-   
  
-};
+})
 
 exports.getAllBootcamp = asyncHandler(  async (req, res, next) => {
  
