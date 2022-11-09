@@ -199,6 +199,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     req.body.passwordCurrent,
     user.password
   );
+  console.log(passwordCheck)
 
   if (!passwordCheck) {
     return next(new AppError("credentials are incorrect, please", 400));

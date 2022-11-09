@@ -160,9 +160,65 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   }
   // Set new password
   user.password = req.body.password;
-  user.passwordResetToken = undefined;
+  user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
+ 
   await user.save();
 
   sendTokenResponse(user, 200, res);
 });
+
+
+
+// admin functionality
+
+// @desc    UpDATE LOGGED IN USER DETAILS
+// @route     PUT  /api/v1/auth/updatedetails
+// @access   Private
+
+exports.updateDetails = asyncHandler(async (req, res, next) => {
+  const updatedDetails = {
+    name:req.body.name,
+    email:req.body.email
+  }
+  const user = await User.findByIdAndUpdate(req.user.id, updatedDetails, {
+    new:true,
+    runValidators:true
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: user,
+  });
+});
+
+
+// admin functionality
+
+// @desc    UpDATE LOGGED IN USER  Password
+// @route     PUT  /api/v1/auth/updatepassword
+// @access   Private
+
+exports.updatePassword = asyncHandler(async (req, res, next) => {
+
+  const user = await User.findById(req.user.id).select("password");
+
+  const passwordCheck = await user.matchPassword(
+    req.body.currentPassword,
+    user.password
+  );
+
+  if (!passwordCheck) {
+    return next(new ErrorResponse("credentials are incorrect, please", 400));
+  }
+
+  user.password = req.body.password;
+
+  await user.save();
+
+  sendTokenResponse(user, 200, res);
+});
+
+
+
+
