@@ -115,6 +115,10 @@ exports.forgotPassword = asyncHandler( async (req, res, next)=>{
 
   await user.save({validateBeforeSave:false})
 
+  const resetUrl = `${req.procol}://`
+
+  // const message = 
+
 
   res.status(200).json({
     status:"success",
