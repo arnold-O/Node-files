@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const asyncHandler = require("../utils/asyncWrapper");
+const sendEmail = require("../utils/email");
 const ErrorResponse = require("../utils/errorResponse");
 
 // @desc     Register User
@@ -95,8 +96,6 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 });
 
 
-
-
 // @desc    Get current logged in User
 // @route   /api/v1/auth/forgotpassword
 // @access   Private
@@ -115,14 +114,26 @@ exports.forgotPassword = asyncHandler( async (req, res, next)=>{
 
   await user.save({validateBeforeSave:false})
 
-  const resetUrl = `${req.procol}://`
+  const resetUrl = `${req.protocol}://${req.get('host')}/api/v1//resetpassword/${resetToken}`
 
-  // const message = 
+  const message = `you recieving this message because you or someone else requested for a password reset .... you link for reset is ${resetUrl}`
 
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "your password reset link is valid for 10mins",
+      message,
+    });
+    res.status(200).json({
+      status: "success",
+      message: "link sent to email",
+    });
+  } catch (error) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
 
-  res.status(200).json({
-    status:"success",
-    data: user
+    return next(new Error("There was error sending the Email", 500));
+  }
 
-  })
 })
