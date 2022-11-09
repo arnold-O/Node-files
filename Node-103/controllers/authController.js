@@ -115,7 +115,7 @@ exports.forgotPassword = asyncHandler( async (req, res, next)=>{
 
   await user.save({validateBeforeSave:false})
 
-  const resetUrl = `${req.protocol}://${req.get('host')}/api/v1//resetpassword/${resetToken}`
+  const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/auth/resetpassword/${resetToken}`
 
   const message = `you recieving this message because you or someone else requested for a password reset .... you link for reset is ${resetUrl}`
 
@@ -141,7 +141,7 @@ exports.forgotPassword = asyncHandler( async (req, res, next)=>{
 
 
         // @desc    Reset Password
-      // @route   /api/v1/auth/resetpassword/:resetToken
+      // @route     PUT  /api/v1/auth/resetpassword/:resetToken
      // @access   public
 
 exports.resetPassword = asyncHandler(async (req, res, next)=>{
