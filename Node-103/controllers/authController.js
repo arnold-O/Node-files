@@ -2,6 +2,7 @@ const User = require("../models/User");
 const asyncHandler = require("../utils/asyncWrapper");
 const sendEmail = require("../utils/email");
 const ErrorResponse = require("../utils/errorResponse");
+const crypto = require('crypto')
 
 // @desc     Register User
 // @route   /api/v1/auth/register
@@ -98,7 +99,7 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 
 // @desc    Get current logged in User
 // @route   /api/v1/auth/forgotpassword
-// @access   Private
+// @access   public
 
 exports.forgotPassword = asyncHandler( async (req, res, next)=>{
 
@@ -135,5 +136,35 @@ exports.forgotPassword = asyncHandler( async (req, res, next)=>{
 
     return next(new Error("There was error sending the Email", 500));
   }
+
+})
+
+
+        // @desc    Reset Password
+      // @route   /api/v1/auth/resetpassword/:resetToken
+     // @access   public
+
+exports.resetPassword = asyncHandler(async (req, res, next)=>{
+
+  const passwordResetToken = crypto.createHash('sha256').update(req.params.resettoken).digest('hex')
+
+  const user = await User.findOne({
+    passwordResetToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+
+
+
+    if(!user){
+      return next(new ErrorResponse(`Invalid Token`, 404))
+    }
+        // Set new password
+  user.password = req.body.password;
+  user.passwordResetToken = undefined;
+  user.resetPasswordExpire = undefined;
+  await user.save();
+
+
+  sendTokenResponse(user, 200, res)
 
 })
