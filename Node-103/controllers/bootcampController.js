@@ -49,12 +49,44 @@ exports.getBootcamp = asyncHandler ( async (req, res, next) => {
   
   })
 
+  exports.updateBootcamp = asyncHandler (async(req, res, next)=>{
+
+    let bootCamp = await Bootcamp.findById(req.params.id);
+
+    if(!bootCamp){
+      return next(new ErrorResponse(`Bootcamp not found with ID of ${req.params.id}`, 404))
+    
+    }
+
+    //bootcamp can only be updated by Owner
+    if(bootCamp.user.toString() !== req.user.id && req.user.role !== 'admin'){
+
+      return next(new ErrorResponse(`You are not authorize to update this resource`, 401))
+    }
+
+    bootCamp = await Bootcamp.findOneAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    
+    
+
+
+   return res.status(200).json({
+      status:"success",
+      bootCamp
+    })
+  })
   exports.deleteBootcamp = asyncHandler (async(req, res, next)=>{
 
     const bootCamp = await Bootcamp.findById(req.params.id)
 
     if(!bootCamp){
       return next(new ErrorResponse(`Bootcamp not found with ID of ${req.params.id}`, 404))
+    }
+    if(bootCamp.user.toString() !== req.user.id && req.user.role !== 'admin'){
+      
+      return next(new ErrorResponse(`You are not authorize to delete this resource`, 401))
     }
     bootCamp.remove();
 
@@ -63,8 +95,6 @@ exports.getBootcamp = asyncHandler ( async (req, res, next) => {
       message:"deleted successfully"
     })
   })
-
-
 
   // @desc   Upload photo for bootcamp
 
@@ -75,6 +105,11 @@ exports.getBootcamp = asyncHandler ( async (req, res, next) => {
     if(!bootCamp){
       return next(new ErrorResponse(`Bootcamp not found with ID of ${req.params.id}`, 404))
     }
+    if(bootCamp.user.toString() !== req.user.id && req.user.role !== 'admin'){
+      
+      return next(new ErrorResponse(`You are not authorize to upload a photo`, 401))
+    }
+
 
     if(!req.files){
       return next(new ErrorResponse('Please upload a file', 400))

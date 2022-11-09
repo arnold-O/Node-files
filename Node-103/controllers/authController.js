@@ -66,11 +66,7 @@ if(!matchPassword){
 
 sendTokenResponse(user, 200, res)
 
-    res.status(201).json({
-        status:"sucess",
-        user,
-        token
-    })
+ 
 })
 
 
