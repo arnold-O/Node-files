@@ -32,14 +32,13 @@ exports.protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-
 // grant access
 
-exports.authorize = (...roles)=>{
-  return (req, res, next)=>{
-    if(!roles.includes(req.user.role)){
-      return next(new ErrorResponse('hey there, you are not authorize', 401))
+exports.authorize = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(new ErrorResponse("hey there, you are not authorize", 401));
     }
-    next()
-  }
-}
+    next();
+  };
+};

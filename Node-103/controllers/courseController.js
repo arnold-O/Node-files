@@ -9,15 +9,13 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
   if (req.params.bootcampId) {
     const courses = await Course.find({ bootcamp: req.params.bootcampId });
     return res.status(200).json({
-      status:"success",
-      count:courses.lebght,
-      data:courses
-    })
+      status: "success",
+      count: courses.lenght,
+      data: courses,
+    });
   } else {
-    res.status(200).json(res.advanceResult)
+    res.status(200).json(res.advanceResult);
   }
-
-
 });
 
 exports.getCourse = asyncHandler(async (req, res, next) => {
@@ -48,9 +46,10 @@ exports.addCourse = asyncHandler(async (req, res, next) => {
       )
     );
   }
-  if(bootcamp.user.toString() !== req.user.id && req.user.role !== 'admin'){
-      
-    return next(new ErrorResponse(`You are not authorize to add a course`, 401))
+  if (bootcamp.user.toString() !== req.user.id && req.user.role !== "admin") {
+    return next(
+      new ErrorResponse(`You are not authorize to add a course`, 401)
+    );
   }
   const newCourse = await Course.create(req.body);
 
@@ -66,6 +65,12 @@ exports.updateCourse = asyncHandler(async (req, res, next) => {
       new ErrorResponse(`No Course with that id ${req.params.id}`, 404)
     );
   }
+  if (course.user.toString() !== req.user.id && req.user.role !== "admin") {
+    return next(
+      new ErrorResponse(`You are not authorize to update a course`, 401)
+    );
+  }
+
   course = await Course.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -77,18 +82,24 @@ exports.updateCourse = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.deleteCourse = asyncHandler( async(req, res, next)=>{
+exports.deleteCourse = asyncHandler(async (req, res, next) => {
+  const course = await Course.findById(req.params.id);
+  if (!course) {
+    return next(
+      new ErrorResponse(`No Course with that id ${req.params.id}`, 404)
+    );
+  }
 
+  if (course.user.toString() !== req.user.id && req.user.role !== "admin") {
+    return next(
+      new ErrorResponse(`You are not authorize to add a course`, 401)
+    );
+  }
 
-
-  const course = await Course.findById(req.params.id)
-
-
-  await course.remove()
-
+  await course.remove();
 
   res.status(200).json({
-    status:"success",
-    data:{}
-  })
-})
+    status: "success",
+    data: {},
+  });
+});
