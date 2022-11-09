@@ -28,6 +28,8 @@ exports.register = asyncHandler(async (req, res, next) => {
   });
 });
 
+
+
 // @desc     Login User
 // @route   /api/v1/auth/login
 // @access   Public
@@ -91,3 +93,32 @@ exports.getMe = asyncHandler(async (req, res, next) => {
     data: user,
   });
 });
+
+
+
+
+// @desc    Get current logged in User
+// @route   /api/v1/auth/forgotpassword
+// @access   Private
+
+exports.forgotPassword = asyncHandler( async (req, res, next)=>{
+
+
+  const user = await User.findOne({email:req.body.email})
+
+  if(!user){
+    return next(new ErrorResponse(`There is no user with this Email ${req.body.email}`, 404))
+  }
+
+  // get reset token 
+  const resetToken = user.getResetPasswordToken()
+
+  await user.save({validateBeforeSave:false})
+
+
+  res.status(200).json({
+    status:"success",
+    data: user
+
+  })
+})
