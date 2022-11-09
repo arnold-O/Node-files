@@ -105,6 +105,8 @@ exports.getBootcamp = asyncHandler ( async (req, res, next) => {
     if(!bootCamp){
       return next(new ErrorResponse(`Bootcamp not found with ID of ${req.params.id}`, 404))
     }
+
+
     if(bootCamp.user.toString() !== req.user.id && req.user.role !== 'admin'){
       
       return next(new ErrorResponse(`You are not authorize to upload a photo`, 401))
@@ -117,13 +119,11 @@ exports.getBootcamp = asyncHandler ( async (req, res, next) => {
 
     const file = req.files.file
     
-    
     // test file to be photo
     if(!file.mimetype.startsWith('image')){
       return next(new ErrorResponse('Please upload an image file', 400))
       
     }
-    
     
     // check file size
     
