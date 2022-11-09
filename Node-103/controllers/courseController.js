@@ -85,7 +85,7 @@ exports.updateCourse = asyncHandler(async (req, res, next) => {
 exports.deleteCourse = asyncHandler(async (req, res, next) => {
   const course = await Course.findById(req.params.id);
   if (!course) {
-    return next( 
+    return next(
       new ErrorResponse(`No Course with that id ${req.params.id}`, 404)
     );
   }

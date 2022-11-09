@@ -30,8 +30,7 @@ const reviewSchema = new mongoose.Schema({
   },
 });
 
-
-reviewSchema.index({tour:1, user:1},{unique:true})
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
 
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
@@ -41,48 +40,48 @@ reviewSchema.pre(/^find/, function (next) {
   next();
 });
 
-reviewSchema.statics.calcAverageRatings = async function(tourId) {
+reviewSchema.statics.calcAverageRatings = async function (tourId) {
   const stats = await this.aggregate([
     {
-      $match: { tour: tourId }
+      $match: { tour: tourId },
     },
     {
       $group: {
-        _id: '$tour',
+        _id: "$tour",
         nRating: { $sum: 1 },
-        avgRating: { $avg: '$rating' }
-      }
-    }
+        avgRating: { $avg: "$rating" },
+      },
+    },
   ]);
   // console.log(stats);
 
   if (stats.length > 0) {
     await Tour.findByIdAndUpdate(tourId, {
       ratingsQuantity: stats[0].nRating,
-      ratingsAverage: stats[0].avgRating
+      ratingsAverage: stats[0].avgRating,
     });
   } else {
     await Tour.findByIdAndUpdate(tourId, {
       ratingsQuantity: 0,
-      ratingsAverage: 4.5
+      ratingsAverage: 4.5,
     });
   }
 };
 
-reviewSchema.post('save', function() {
+reviewSchema.post("save", function () {
   // this points to current review
   this.constructor.calcAverageRatings(this.tour);
 });
 
 // findByIdAndUpdate
 // findByIdAndDelete
-reviewSchema.pre(/^findOneAnd/, async function(next) {
+reviewSchema.pre(/^findOneAnd/, async function (next) {
   this.r = await this.findOne();
   // console.log(this.r);
   next();
 });
 
-reviewSchema.post(/^findOneAnd/, async function() {
+reviewSchema.post(/^findOneAnd/, async function () {
   // await this.findOne(); does NOT work here, query has already executed
   await this.r.constructor.calcAverageRatings(this.r.tour);
 });
