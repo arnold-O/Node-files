@@ -21,13 +21,7 @@ exports.register = asyncHandler(async (req, res, next) => {
     role,
   });
 
-  const token = user.getSignedJwtToken();
-
-  res.status(201).json({
-    status: "sucess",
-    user,
-    token,
-  });
+  sendTokenResponse(user, 200, res);
 });
 
 // @desc     Login User
@@ -162,7 +156,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   user.password = req.body.password;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
- 
+
   await user.save();
 
   sendTokenResponse(user, 200, res);
@@ -170,37 +164,36 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
 
 
-// admin functionality
-
 // @desc    UpDATE LOGGED IN USER DETAILS
 // @route     PUT  /api/v1/auth/updatedetails
 // @access   Private
 
 exports.updateDetails = asyncHandler(async (req, res, next) => {
   const updatedDetails = {
-    name:req.body.name,
-    email:req.body.email
-  }
+    name: req.body.name,
+    email: req.body.email,
+  };
   const user = await User.findByIdAndUpdate(req.user.id, updatedDetails, {
-    new:true,
-    runValidators:true
+    new: true,
+    runValidators: true,
   });
 
   res.status(200).json({
     status: "success",
     data: user,
   });
-});
+});2
+
+
 
 
 // admin functionality
-
-// @desc    UpDATE LOGGED IN USER  Password
-// @route     PUT  /api/v1/auth/updatepassword
+// @desc     UpDATE LOGGED IN USER  Password
+// @route    PUT  /api/v1/auth/updatepassword
 // @access   Private
 
-exports.updatePassword = asyncHandler(async (req, res, next) => {
 
+exports.updatePassword = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("password");
 
   const passwordCheck = await user.matchPassword(
@@ -221,4 +214,5 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 
 
 
+// admin functionality
 
