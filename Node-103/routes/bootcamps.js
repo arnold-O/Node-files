@@ -8,6 +8,7 @@ const {
   updateBootcamp,
 } = require("../controllers/bootcampController");
 const courseRouter = require("./course");
+const reviewRouter = require("./review");
 const Bootcamp = require("../models/Bootcamp");
 const appFeatures = require("../middleware/appFeatures");
 const { protect, authorize } = require("../middleware/protected");
@@ -16,6 +17,7 @@ const router = express.Router();
 
 // re-route to  other resource
 router.use("/:bootcampId/courses", courseRouter);
+router.use("/:bootcampId/review", reviewRouter);
 
 router.get("/getall", appFeatures(Bootcamp, "courses"), getAllBootcamp);
 

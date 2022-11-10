@@ -16,11 +16,13 @@ exports.createReview = asyncHandler(async (req, res, next)=>{
 
 
 // @desc     Get  Reviews
-// @route   Get /api/v1/bootcamps/bootcampId/review
+// @route   Get /api/v1/bootcamps/:bootcampId/review
 // @access   Public
 exports.getAllReview = asyncHandler(async (req, res, next)=>{
 
-    const review =  await Review.create(req.body)
+    const review =  await Review.find({bootcamp : req.params.bootcampId})
+
+    res.status(200).json(res.advanceResult)
 })
 
 
