@@ -13,7 +13,7 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
 });
 
 // @desc     Get  User
-// @route    Get /api/v1/auth/singleuser/:id
+// @route    Get /api/v1/singleuser/:id
 // @access   Private/Admin
 
 exports.getSingleUsers = asyncHandler(async (req, res, next) => {
@@ -39,7 +39,7 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 });
 
 // @desc     Update  User
-// @route   Put /api/v1/auth/user/:id
+// @route   Put /api/v1/user/:id
 // @access   Private/Admin
 
 exports.UpdateUser = asyncHandler(async (req, res, next) => {
@@ -55,7 +55,7 @@ exports.UpdateUser = asyncHandler(async (req, res, next) => {
 });
 
 // @desc     Delete  User
-// @route   Delete /api/v1/auth/user/:id
+// @route   Delete /api/v1/user/:id
 // @access   Private/Admin
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
