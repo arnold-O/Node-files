@@ -18,7 +18,7 @@ router.get("/", appFeatures(User), getUsers);
 
 router.post("/", createUser);
 router.get("/:id", getSingleUsers);
-router.patch("/:id", UpdateUser);
+router.put("/:id", UpdateUser);
 router.delete("/:id", deleteUser);
 
 

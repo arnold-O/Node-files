@@ -9,7 +9,7 @@ const crypto = require("crypto");
 // @access   Private/Admin
 
 exports.getUsers = asyncHandler(async (req, res, next) => {
-  res.status.json(res.advanceResult);
+  res.status(200).json(res.advanceResult);
 });
 
 // @desc     Get  User
@@ -45,7 +45,7 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 exports.UpdateUser = asyncHandler(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
-    runValidatorstrue,
+    runValidators: true,
   });
 
   res.status(201).json({
@@ -62,6 +62,6 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   await User.findByIdAndDelete(req.params.id);
   res.status(201).json({
     status: "success",
-    message: "USer deleted Successffully",
+    message: "User deleted Successffully",
   });
 });
