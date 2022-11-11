@@ -21,9 +21,19 @@ exports.createReview = asyncHandler(async (req, res, next)=>{
 // @access   Public
 exports.getAllReview = asyncHandler(async (req, res, next)=>{
 
-    const review =  await Review.find({bootcamp : req.params.bootcampId})
+    if(req.params.bootcampId){
 
-    res.status(200).json(res.advanceResult)
+        const review =  await Review.find({bootcamp : req.params.bootcampId})
+        return res.status(200).json({
+            success:"success",
+            count: review.length,
+            review
+        });
+    }else{
+
+        res.status(200).json(res.advanceResult)
+    }
+
 })
 
 

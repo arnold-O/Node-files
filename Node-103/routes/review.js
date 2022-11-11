@@ -6,15 +6,15 @@ const Review = require('../models/Review');
 
 
 const router = express.Router({ mergeParams: true });
-router.use(protect);
-router.use(authorize('admin', 'user'))
 
 router.get(
   "/",
   appFeatures(Review),
   getAllReview
-);
-
+  );
+  
+  router.use(protect);
+  router.use(authorize('admin', 'user'))
 // router.post("/create", createBootcamp);
 
 router.get("/:id", getRevieew);
