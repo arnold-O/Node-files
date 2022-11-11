@@ -1,5 +1,6 @@
 const Review = require("../models/Review");
 const asyncHandler = require("../utils/asyncWrapper");
+const ErrorResponse = require("../utils/errorResponse");
 
 
 
@@ -29,10 +30,22 @@ exports.getAllReview = asyncHandler(async (req, res, next)=>{
 
 // @desc     Get  Review
 // @route   Get /api/v1/review/:id
-// @access   Private/Admin
+// @access   Public
 exports.getRevieew = asyncHandler(async (req, res, next)=>{
 
-    const review =  await Review.create(req.body)
+    const review =  await Review.findById(req.params.id).populate({
+        path:" bootcamp",
+        select:"name description"
+    })
+    if(!review){
+        return next(new ErrorResponse(`no review found with the Id ${req.params.id}`, 404))
+    }
+
+
+    res.status(200).json({
+        status:"success",
+        review
+    })
 })
 
 

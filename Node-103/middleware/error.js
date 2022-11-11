@@ -5,7 +5,7 @@ let error = {...err}
 error.message = err.message
 
     if(err.name === 'CastError'){
-        const message = `No resource  found with Id of ${err.value}`;
+        const message = `No resource found with Id of ${err.value}`;
         
         error = new ErrorResponse(message, 404)
     }
