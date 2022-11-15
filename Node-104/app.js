@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require('morgan')
 const globalErrorHandler = require("./middlewares/errorController");
 const userRoutes = require("./routes/userRoute");
+const authRoutes = require("./routes/authRoute");
 
 require("dotenv").config();
 
@@ -20,6 +21,7 @@ app.get("/", (req, res, next) => {
   res.send("heyyyy uuuu");
 });
 app.use('/api/v1/user', userRoutes )
+app.use('/api/v1/auth', authRoutes )
 
 app.use(globalErrorHandler)
 
