@@ -1,5 +1,8 @@
 const User = require("../model/User")
 const AsyncError = require("../utils/catchAsyncError");
+const AppError = require("../utils/appError");
+
+const jwt = require('jsonwebtoken')
 
 
 exports.register = AsyncError(async (req, res, next) => {
@@ -18,10 +21,16 @@ exports.register = AsyncError(async (req, res, next) => {
       password,
       role
     });
-  
+
+    const tokenUser = {
+        name:newUser.name, userId:newUser._id, role:newUser.role
+    }
+  const token = jwt.sign(tokenUser, "secret", {expiresIn:"1d"})
+
     res.status(200).json({
       status: "success",
-      newUser,
+      user:tokenUser,
+      token
     });
   });
 
