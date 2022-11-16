@@ -10,8 +10,8 @@ exports.createUser = AsyncError(async (req, res, next) => {
   if (userAlreadyExist) {
     return next(new AppError("Email already exist", 400));
   }
-//   const firstAcount = (await User.countDocuments({})) === 0;
-//   const role = firstAcount ? "admin" : "user";
+  const firstAcount = (await User.countDocuments({})) === 0;
+  const role = firstAcount ? "admin" : "user";
   const newUser = await User.create({
     name,
     email,
