@@ -2,10 +2,7 @@ const User = require("../model/User")
 const catchAsyncError = require("../utils/catchAsyncError")
 
 
-
-
-
-const register =  catchAsyncError(  async(req, res, next)=>{
+const register = catchAsyncError(  async(req, res, next)=>{
 
     const {name, email, password} = req.body
         const user = await User.create({
