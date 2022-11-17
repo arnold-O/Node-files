@@ -20,7 +20,7 @@ router.use(authorize("admin", "user"));
 
 router.post("/", createReview);
 router.get("/:id", getReview);
-router.patch("/:id", updateReview);
+router.put("/:id", updateReview);
 router.delete("/:id", deleteReview);
 
 module.exports = router;
