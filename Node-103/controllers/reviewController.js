@@ -1,17 +1,35 @@
 const Review = require("../models/Review");
 const asyncHandler = require("../utils/asyncWrapper");
 const ErrorResponse = require("../utils/errorResponse");
+const Bootcamp = require("../models/Bootcamp");
 
 // @desc     Create  Review
-// @route   Post /api/v1/review
+// @route   Post /api/v1/bootcamps/:bootcampId/review
 // @access   Private/User/Admin
 exports.createReview = asyncHandler(async (req, res, next) => {
+  req.body.bootcamp = req.params.bootcampId;
+
+  req.body.user = req.user.id;
+  const bootcamp = await Bootcamp.findById(req.params.bootcampId);
+
+  if (!bootcamp) {
+    return next(
+      new ErrorResponse(`No bootcamp with the ID ${req.params.bootcampId}`, 404)
+    );
+  }
+
   const review = await Review.create(req.body);
+
+  res.status(201).json({
+    status: "success",
+    data: review,
+  });
 });
 
 // @desc     Get  Reviews
 // @route   Get /api/v1/bootcamps/:bootcampId/review
 // @access   Public
+
 exports.getAllReview = asyncHandler(async (req, res, next) => {
   if (req.params.bootcampId) {
     const review = await Review.find({ bootcamp: req.params.bootcampId });
@@ -28,11 +46,13 @@ exports.getAllReview = asyncHandler(async (req, res, next) => {
 // @desc     Get  Review
 // @route   Get /api/v1/review/:id
 // @access   Public
-exports.getRevieew = asyncHandler(async (req, res, next) => {
+
+exports.getReview = asyncHandler(async (req, res, next) => {
   const review = await Review.findById(req.params.id).populate({
-    path: " bootcamp",
+    path: "bootcamp",
     select: "name description",
   });
+
   if (!review) {
     return next(
       new ErrorResponse(`no review found with the Id ${req.params.id}`, 404)

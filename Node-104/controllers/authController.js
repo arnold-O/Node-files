@@ -3,8 +3,6 @@ const AsyncError = require("../utils/catchAsyncError");
 const AppError = require("../utils/appError");
 const { createJwt } = require("../utils/jwt");
 
-
-
 exports.register = AsyncError(async (req, res, next) => {
   const { name, email, password } = req.body;
 
@@ -27,12 +25,17 @@ exports.register = AsyncError(async (req, res, next) => {
     userId: newUser._id,
     role: newUser.role,
   };
- 
-  const token = createJwt({payload:tokenUser})
+
+  const token = createJwt({ payload: tokenUser });
+
+  res.cookie('token', token, {
+    httpOnly:true,
+    expires:new Date(Date.now()+ 1000 * 60 * 60 * 24)
+  })
 
   res.status(200).json({
     status: "success",
     user: tokenUser,
-    token,
+
   });
 });

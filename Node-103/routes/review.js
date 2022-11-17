@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  getRevieew,
+  getReview,
   createReview,
   updateReview,
   deleteReview,
@@ -18,8 +18,8 @@ router.use(protect);
 router.use(authorize("admin", "user"));
 // router.post("/create", createBootcamp);
 
-router.get("/:id", getRevieew);
 router.post("/", createReview);
+router.get("/:id", getReview);
 router.patch("/:id", updateReview);
 router.delete("/:id", deleteReview);
 
