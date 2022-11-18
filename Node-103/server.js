@@ -15,6 +15,7 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
+const cors = require("cors");
 const connectedDB = require("./config/db");
 const errorHandler = require("./middleware/error");
 
@@ -48,12 +49,11 @@ app.use(helmet());
 
 // Rate Limit
 const limiter = rateLimit({
-    windowMs: 10 * 60  * 1000,  //10 miins rate
-    max:100
+  windowMs: 10 * 60 * 1000, //10 miins rate
+  max: 100,
+});
 
-})
-
-app.use(limiter)
+app.use(limiter);
 
 // Xss Attacks
 app.use(xss());
@@ -61,7 +61,8 @@ app.use(xss());
 // Parameter Pollution
 app.use(hpp());
 
-
+// Cross Origin Resource Sharing
+app.use(cors());
 
 // static files
 app.use(express.static(path.join(__dirname, "public")));
