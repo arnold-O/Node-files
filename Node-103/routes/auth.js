@@ -7,6 +7,7 @@ const {
   resetPassword,
   updateDetails,
   updatePassword,
+  logOut,
 } = require("../controllers/authController");
 const { protect, authorize } = require("../middleware/protected");
 
@@ -15,6 +16,7 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.get("/getme", protect,  getMe);
+router.get("/logout",  logOut);
 router.post("/forgotpassword", forgotPassword);
 router.put("/resetpassword/:resettoken", resetPassword);
 router.put("/updatedetails", protect, updateDetails);

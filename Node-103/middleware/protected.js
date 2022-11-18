@@ -16,7 +16,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   }
 
   if (!token) {
-    return next(new ErrorResponse("Not authorize to access this route", 401));
+    return next(new ErrorResponse("Not authorized to access this route", 401));
   }
 
   try {
@@ -25,7 +25,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
     req.user = await User.findById(decodedData.id);
     next();
   } catch (error) {
-    return next(new ErrorResponse("Not authorize to access this route", 401));
+    return next(new ErrorResponse("Not authorized to access this route", 401));
   }
 });
 
@@ -33,7 +33,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 exports.authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return next(new ErrorResponse("hey there, you are not authorize", 401));
+      return next(new ErrorResponse("hey there, you are not authorized", 401));
     }
     next();
   };
