@@ -19,6 +19,7 @@ router.use(authorize("admin", "user"));
 // router.post("/create", createBootcamp);
 
 router.post("/", createReview);
+
 router.get("/:id", getReview);
 router.put("/:id", updateReview);
 router.delete("/:id", deleteReview);

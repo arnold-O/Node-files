@@ -71,10 +71,10 @@ exports.getReview = asyncHandler(async (req, res, next) => {
 
 exports.updateReview = asyncHandler(async (req, res, next) => {
   let review = await Review.findById(req.params.id);
-  if(!review){
-    return next(new ErrorResponse(`no review with id  ${req.params.id}`, 404))
+  if (!review) {
+    return next(new ErrorResponse(`no review with id  ${req.params.id}`, 404));
   }
-    // check who review belongs to
+  // check who review belongs to
   if (review.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(`You are not authorize to update a review`, 401)
@@ -90,16 +90,26 @@ exports.updateReview = asyncHandler(async (req, res, next) => {
     status: "success",
     review,
   });
-
 });
 
 // @desc     Delete  User
 // @route   Delete /api/v1/review/:id
 // @access   Private/Admin
 exports.deleteReview = asyncHandler(async (req, res, next) => {
-  const review = await Review.create(req.params.id);
-  if(!review){
-    return next(new ErrorResponse(`no review with id  ${req.params.id}`, 404))
+  const review = await Review.findById4(req.params.id);
+  if (!review) {
+    return next(new ErrorResponse(`no review with id  ${req.params.id}`, 404));
+  }
+  if (review.user.toString() !== req.user.id && req.user.role !== "admin") {
+    return next(
+      new ErrorResponse(`You are not authorize to Delete this review`, 401)
+    );
   }
 
+  await review.remove();
+
+  res.status(200).json({
+    status: "success",
+    msg: "review deleted successfully",
+  });
 });

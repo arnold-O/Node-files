@@ -68,8 +68,8 @@ const sendTokenResponse = (user, statusCode, res) => {
   if (process.env.NODE.env === "production") {
     options.secure = true;
   }
-
-  res.status(statusCode).cookie("token", token, options).json({
+  res.cookie("token", token, options)
+  res.status(statusCode).json({
     status: "success",
     token,
   });
@@ -81,6 +81,10 @@ const sendTokenResponse = (user, statusCode, res) => {
 
 exports.getMe = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id);
+
+  if(!user){
+    return next(new ErrorResponse("Invalid Credentials", 401));
+  }
 
   res.status(200).json({
     status: "success",

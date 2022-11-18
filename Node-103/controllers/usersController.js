@@ -12,6 +12,8 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
   res.status(200).json(res.advanceResult);
 });
 
+
+
 // @desc     Get  User
 // @route    Get /api/v1/singleuser/:id
 // @access   Private/Admin
@@ -24,6 +26,7 @@ exports.getSingleUsers = asyncHandler(async (req, res, next) => {
     user,
   });
 });
+
 
 // @desc     Create  User
 // @route   Post /api/v1/auth/user
