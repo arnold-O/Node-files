@@ -5,7 +5,7 @@ let error = {...err}
 error.message = err.message
 
     if(err.name === 'CastError'){
-        const message = `No resource found with Id of ${err.value}`;
+        const message = `Resource not found`;
         
         error = new ErrorResponse(message, 404)
     }
@@ -25,7 +25,5 @@ error.message = err.message
     error: error.message || 'Server Error',
   });
 };
-
-
 
 module.exports = errorHandler;

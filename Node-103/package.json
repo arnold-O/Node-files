@@ -17,6 +17,7 @@
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
     "express-mongo-sanitize": "^2.2.0",
+    "helmet": "^6.0.0",
     "i": "^0.3.7",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.5",
@@ -25,6 +26,7 @@
     "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20",
     "npm": "^8.19.2",
-    "slugify": "^1.6.5"
+    "slugify": "^1.6.5",
+    "xss-clean": "^0.1.1"
   }
 }
