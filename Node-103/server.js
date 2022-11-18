@@ -10,6 +10,7 @@ const courses = require('./routes/course')
 const auth = require('./routes/auth')
 const user = require('./routes/users')
 const review = require('./routes/review')
+const mongoSanitize = require('express-mongo-sanitize')
 const connectedDB = require('./config/db')
 const errorHandler = require('./middleware/error')
 
@@ -32,6 +33,9 @@ if(process.env.NODE_ENV ==='development'){
 
 // file upload
 app.use(fileupload())
+
+// mongo Sanitize
+app.use(mongoSanitize())
 
 // static files
 app.use(express.static(path.join(__dirname, 'public')))
