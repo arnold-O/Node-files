@@ -1,7 +1,7 @@
 const express = require('express');
 
-var accountSid = process.env.TWILIO_ACCOUNT_SID; // Your Account SID from www.twilio.com/console
-var authToken = process.env.TWILIO_AUTH_TOKEN;   // Your Auth Token from www.twilio.com/console
+var accountSid = ''; // Your Account SID from www.twilio.com/console
+var authToken = '';   // Your Auth Token from www.twilio.com/console
 
 const client = require('twilio')(accountSid, authToken, {
     lazyLoading: true
@@ -9,8 +9,27 @@ const client = require('twilio')(accountSid, authToken, {
 
 const app = express();
 
-const PORT = 3000;
-app.listen(PORT, ()=>{
-    console.log(`PORTapp running on port ${PORT}`)
+
+app.get('/', (req, res)=>{
+    
+    sendTextTwilio()
+
+    res.send("<h1>we making it big this year in JESUS name oooooo!!!!!!!1</h1>")
 })
 
+const sendTextTwilio = ()=>{
+    client.messages.create({
+        body: 'chom bebe, how are you?',
+        to: '+2348137764168',
+        from: '+19293465601'
+     }).then(message => console.log(message))
+       // here you can implement your fallback code
+       .catch(error => console.log(error))
+}
+
+
+
+const PORT = 3000;
+app.listen(PORT, ()=>{
+    console.log(`app running on port ${PORT}`)
+})
