@@ -20,22 +20,23 @@ exports.register = AsyncError(async (req, res, next) => {
     role,
   });
 
+
   const tokenUser = {
     name: newUser.name,
     userId: newUser._id,
     role: newUser.role,
   };
 
-  const token = createJwt({ payload: tokenUser });
 
-  res.cookie('token', token, {
-    httpOnly:true,
-    expires:new Date(Date.now()+ 1000 * 60 * 60 * 24)
-  })
+  const token = createJwt({ payload: tokenUser });
+  
+  res.cookie("token", token, {
+    httpOnly: true,
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+  });
 
   res.status(200).json({
     status: "success",
     user: tokenUser,
-
   });
 });
