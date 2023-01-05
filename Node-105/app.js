@@ -19,7 +19,7 @@ app.get('/', (req, res)=>{
 
 const sendTextTwilio = ()=>{
     client.messages.create({
-        body: 'chom bebe, how are you?',
+        body: '',
         to: '+2348137764168',
         from: '+19293465601'
      }).then(message => console.log(message))

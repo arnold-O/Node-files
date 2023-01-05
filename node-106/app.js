@@ -4,8 +4,19 @@ const app = express()
 
 
 
-app.get('/', ()=>{
-    
+app.get('/', (req, res)=>{
+    res.status(200).json({
+        message:"we live",
+        status:"success"
+    })
+
+})
+app.post('/', (req, res)=>{
+    res.status(200).json({
+        message:"from post verb",
+        status:"success"
+    })
+
 })
 
 const PORT = 4000
