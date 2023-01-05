@@ -1,22 +1,16 @@
+const fs = require('fs');
 const express = require('express');
 
 const app = express()
 
+const data = JSON.parse(fs.readFileSync(`${__dirname}/data/tour-simple.json`))
 
-
-app.get('/', (req, res)=>{
-    res.status(200).json({
-        message:"we live",
-        status:"success"
+app.post('/api/v1/tours', (req, res)=>{
+    res.json({
+        status:"success",
+        data
     })
-
-})
-app.post('/', (req, res)=>{
-    res.status(200).json({
-        message:"from post verb",
-        status:"success"
-    })
-
+        
 })
 
 const PORT = 4000
