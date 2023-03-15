@@ -155,6 +155,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       subject: "your password reset link is valid for 10mins",
       message,
     });
+
     res.status(200).json({
       status: "success",
       message: "link sent to email",
