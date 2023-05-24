@@ -112,6 +112,7 @@ const BootcampSchema = new mongoose.Schema(
       required: true,
     },
   },
+
   {
     toJSON: {
       virtuals: true,
