@@ -112,6 +112,7 @@ const BootcampSchema = new mongoose.Schema(
       required: true,
     },
   },
+
   {
     toJSON: {
       virtuals: true,
@@ -146,7 +147,7 @@ BootcampSchema.pre("save", async function (next) {
   this.address = undefined;
   next();
 });
-// cascade delete courses whwn bootcamp is deleted
+// cascade delete courses when bootcamp is deleted
 BootcampSchema.pre("remove", async function (next) {
   await this.model("Course").deleteMany({ bootcamp: this._id });
 

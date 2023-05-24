@@ -98,12 +98,6 @@ const tourSchema = new mongoose.Schema(
 // tourSchema.index({price:1})
 tourSchema.index({ price: 1, ratingsAvg: -1 });
 
-// tourSchema.pre('save', async function(next){
-
-//   this.guidesPromises = this.guides.map(async id =>await User.findById(id) )
-//   this.guides = await Promise.all(this.guidesPromises)
-// next()
-// })
 tourSchema.virtual("reviews", {
   ref: "Review",
   foreignField: "tour",
