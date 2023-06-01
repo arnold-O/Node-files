@@ -1,0 +1,29 @@
+openapi: 3.0.0
+info:
+  title: Socials App
+  description: Our First Social at my house
+  version: 1.0.1
+
+servers:
+  - url: http:/localhost:4000/api/v1
+    description: localhost version of our app
+  - url: https:/localhost:4000/api/v1
+    description: this is a dummy online url
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+
+paths:
+  /instagram:
+    get:
+      summary: returns username, followers, and follows
+      responses:
+        '200': #Status Code
+          description: return an object 
