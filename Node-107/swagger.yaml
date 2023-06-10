@@ -5,9 +5,9 @@ info:
   version: 1.0.1
 
 servers:
-  - url: http:/localhost:4000/api/v1
+  - url: http://localhost:5001/api/v1
     description: localhost version of our app
-  - url: https:/localhost:4000/api/v1
+  - url: https://localhost:5001/api/v1
     description: this is a dummy online url
 
 components:
@@ -26,4 +26,5 @@ paths:
       summary: returns username, followers, and follows
       responses:
         '200': #Status Code
-          description: return an object 
+          description: returns an object
+           
