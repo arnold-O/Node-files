@@ -1,6 +1,7 @@
 require("dotenv").config();
 require("./config/database").connect();
 const express = require("express");
+const fileupload = require('express-fileupload')
 const cookieparser = require('cookie-parser')
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
@@ -11,6 +12,12 @@ const auth = require('./middleware/auth')
 const app = express();
 app.use(express.json());
 app.use(cookieparser());
+app.use(express.urlencoded({extended:true}));
+app.use(fileupload({
+  useTempFiles:true,
+  tempFileDir:"/tmp/"
+}))
+app.set('view engine', 'ejs')
 
 const User = require("./models/User");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -110,6 +117,28 @@ app.get('/dash', auth, (req, res)=>{
 
     res.send('Secret path')
 
+})
+
+
+app.get('/getformdata', (req, res)=>{
+  res.send(req.query)
+
+  console.log(req.query)
+})
+app.post('/postformdata', (req, res)=>{
+  res.send(req.body)
+
+  console.log(req.body)
+  console.log(req.files)
+})
+
+// Render form
+
+app.get('/getform', (req, res)=>{
+   res.render('getform')
+})
+app.get('/postform', (req, res)=>{
+   res.render('postform')
 })
 
 module.exports = app;
