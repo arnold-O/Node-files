@@ -140,11 +140,11 @@ app.post('/postformdata',  async(req, res)=>{
   console.log(req.files)
   const imageArray = [];
 
-  
+
 // multiple Images
 if(req.files){
   for (let index = 0; index < req.files.samplefile.length; index++) {
-   const result =  cloudinary.uploader.upload(req.files.samplefile[index].tempFilePath, {folder:'users'})
+   const result = await  cloudinary.uploader.upload(req.files.samplefile[index].tempFilePath, {folder:'users'})
   
    imageArray.push({
     public_id:result.public_id,
@@ -155,12 +155,12 @@ if(req.files){
   // Simple use case
   // let file = req.files.samplefile
 //  let  result = await  cloudinary.uploader.upload(file.tempFilePath, {folder:'users'})
- console.log(result)
+//  console.log(result)
 
   const details = {
     firstname:req.body.firstname,
     lastname: req.body.firstname,
-    result
+    imageArray
   }
   res.status(201).json(details)
 })
