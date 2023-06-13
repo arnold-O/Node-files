@@ -2,6 +2,7 @@ require("dotenv").config();
 require("./config/database").connect();
 const express = require("express");
 const fileupload = require('express-fileupload')
+const cloudinary = require('cloudinary').v2
 const cookieparser = require('cookie-parser')
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
@@ -13,10 +14,13 @@ const app = express();
 app.use(express.json());
 app.use(cookieparser());
 app.use(express.urlencoded({extended:true}));
-app.use(fileupload({
-  useTempFiles:true,
-  tempFileDir:"/tmp/"
-}))
+
+cloudinary.config({
+  cloud_name:process.env.CLOUDNAME,
+  api_key:process.env.CLOUDINARY_KEY,
+  api_secret:process.env.CLOUDINARY_SECRET,
+
+})
 app.set('view engine', 'ejs')
 
 const User = require("./models/User");
@@ -119,17 +123,46 @@ app.get('/dash', auth, (req, res)=>{
 
 })
 
+app.use(fileupload({
+  useTempFiles:true,
+  tempFileDir:"/tmp/"
+}))
 
-app.get('/getformdata', (req, res)=>{
+app.get('/getformdata',async (req, res)=>{
   res.send(req.query)
 
   console.log(req.query)
 })
-app.post('/postformdata', (req, res)=>{
-  res.send(req.body)
+app.post('/postformdata',  async(req, res)=>{
+  // res.send(req.body)
 
   console.log(req.body)
   console.log(req.files)
+  const imageArray = [];
+
+  
+// multiple Images
+if(req.files){
+  for (let index = 0; index < req.files.samplefile.length; index++) {
+   const result =  cloudinary.uploader.upload(req.files.samplefile[index].tempFilePath, {folder:'users'})
+  
+   imageArray.push({
+    public_id:result.public_id,
+    secure_url:result.secure_url
+   })
+  }
+}
+  // Simple use case
+  // let file = req.files.samplefile
+//  let  result = await  cloudinary.uploader.upload(file.tempFilePath, {folder:'users'})
+ console.log(result)
+
+  const details = {
+    firstname:req.body.firstname,
+    lastname: req.body.firstname,
+    result
+  }
+  res.status(201).json(details)
 })
 
 // Render form
