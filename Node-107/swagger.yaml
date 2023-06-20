@@ -19,7 +19,7 @@ components:
       type: http
       scheme: bearer
 
-
+ 
 paths:
   /instagram:
     get:

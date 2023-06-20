@@ -205,7 +205,7 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
     status: "success",
     data: user,
   });
-});2
+});
 
 
 
