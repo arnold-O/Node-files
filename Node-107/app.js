@@ -1,6 +1,8 @@
+const express = require("express");
+const app = express();
 require("dotenv").config();
 require("./config/database").connect();
-const express = require("express");
+
 const fileupload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
 const cookieparser = require("cookie-parser");
@@ -10,7 +12,8 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 const jwt = require("jsonwebtoken");
 const auth = require("./middleware/auth");
 
-const app = express();
+
+
 app.use(express.json());
 app.use(cookieparser());
 app.use(express.urlencoded({ extended: true }));
@@ -173,4 +176,6 @@ app.get("/postform", (req, res) => {
 });
 
 
-module.exports = app;
+
+
+module.exports = app 
