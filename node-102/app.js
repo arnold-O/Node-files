@@ -19,6 +19,15 @@ app.use(express.json({ limit: "10kb" }));
 
 // Global middlewares
 
+
+// Docs files
+
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml')
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // data sanitization
 // app.use(mongoSanitize);
 app.use(xss());

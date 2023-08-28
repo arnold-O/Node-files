@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon index.js",
     "start:prod": "NODE_ENV=production nodemon server.js"
   },
   "keywords": [],
@@ -21,8 +21,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.3",
     "nodemailer": "^6.8.0",
+    "swagger-ui-express": "^5.0.0",
     "validator": "^13.7.0",
-    "xss-clean": "^0.1.1"
+    "xss-clean": "^0.1.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

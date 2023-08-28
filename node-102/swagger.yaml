@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  title: Tour App
+  description: An App for to help tourist navigate their chosen destination after booking an app 
+  version: 1.0.1
+
+servers:
+  - url: http://localhost:4000/api/v1/tour
+    description: localhost version of our app
+  - url: http://foronline-url.example.com
+    description: This is a dummy url online site
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+paths:
+  /getall:
+    get:
+      summary: returns all avaible tours registered on the plateform.
+      responses:
+        '200':
+          description: return an object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   name:
+                    type: string
+                   duration:
+                    type: number
+                   maxGroupSize:
+                    type: number
+                   difficulty:
+                    type: string
+                   price:
+                    type: number
+  
+  /create:
+    post:
+      summary: returns all avaible tours registered on the plateform.
+      responses:
+        '200':
+          description: return an object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                   name:
+                    type: string
+                   duration:
+                    type: number
+                   maxGroupSize:
+                    type: number
+                   difficulty:
+                    type: string
+                   price:
+                    type: number
+  
+  

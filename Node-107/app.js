@@ -23,6 +23,7 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_KEY,
   api_secret: process.env.CLOUDINARY_SECRET,
 });
+
 app.set("view engine", "ejs");
 
 const User = require("./models/User");

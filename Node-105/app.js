@@ -10,12 +10,6 @@ const client = require('twilio')(accountSid, authToken, {
 const app = express();
 
 
-app.get('/', (req, res)=>{
-    
-    sendTextTwilio()
-
-    res.send("<h1>we making it big this year in JESUS name oooooo!!!!!!!1</h1>")
-})
 
 const sendTextTwilio = ()=>{
     client.messages.create({
